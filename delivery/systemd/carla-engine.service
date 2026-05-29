@@ -1,0 +1,16 @@
+[Unit]
+Description=CARLA Engine for Delivery
+After=graphical-session.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/CARLA_0.9.15
+ExecStart=/usr/bin/env bash %h/Carla_Project/delivery/start_carla.sh
+Restart=always
+RestartSec=15
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target

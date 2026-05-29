@@ -1,0 +1,303 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: CARLA VCU
+VAL_TABLE_ Table_Gear 4 "R档" 3 "S档" 2 "D档" 1 "N档" 0 "P档" ;
+
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ Cockpit_Key_Stop : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 289 Cockpit_Domain_Warn: 8 Vector__XXX
+ SG_ CDC_Fatigue_Icon : 8|8@1- (1,0) [0|0] "" Vector__XXX
+ SG_ CDC_Blind_Icon : 16|8@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 274 Carla_PT_IU: 8 Vector__XXX
+ SG_ Carla_Temp : 56|8@1+ (1,-40) [-40|120] "℃" Vector__XXX
+ SG_ Carla_LV : 48|8@1+ (0.1,0) [0|16] "V" Vector__XXX
+ SG_ Carla_HV_Remain : 39|16@0+ (1,0) [0|3000] "Km" Vector__XXX
+ SG_ Carla_HV_Current : 23|16@0- (0.1,0) [-1000|1000] "A" Vector__XXX
+ SG_ Carla_HV : 7|16@0+ (0.1,0) [0|1000] "V" Vector__XXX
+
+BO_ 275 Carla_IU: 8 Vector__XXX
+ SG_ Carla_DM_Speed : 39|16@0- (1,0) [-30000|30000] "RPM" Vector__XXX
+ SG_ Carla_Check : 56|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_AP_Sys_Icon : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_AP_Run_Icon : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_AP_Fault_Icon : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Charge_Icon : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 276 Carla_HUD: 8 Vector__XXX
+ SG_ Carla_HUD_Icon : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_EV_Speed_H : 0|8@1+ (1,0) [0|250] "Km/H" Vector__XXX
+ SG_ Carla_EV_SOC : 8|8@1+ (1,0) [0|250] "Km/H" Vector__XXX
+ SG_ Carla_Navigae_Speed_Limit_Icon : 48|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Navigate_Icon : 32|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Navigate_Distance : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 277 Cockpit_State: 8 Vector__XXX
+ SG_ Cockpit_Check : 56|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Temp : 8|8@1+ (1,-40) [-40|120] "℃" Vector__XXX
+ SG_ Cockpit_State_Icon : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_State_Chassis_Icon : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_LV : 0|8@1+ (0.1,0) [0|16] "V" Vector__XXX
+ SG_ Cockpit_Fault_Icon_2 : 32|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Fault_Icon_1 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Fault_Chassis_Icon : 48|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 278 Cockpit_Control: 8 VCU
+ SG_ Cockpit_Led_Horn : 55|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Led_Break : 54|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_SW_Light_R : 43|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_SW_Light_L : 42|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_SW_Start : 40|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_SW_Beam_Low : 44|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_SW_Beam_High : 45|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_SW_Auto : 41|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Key_R : 5|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Key_Park : 6|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Key_Horn : 47|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Key_Hazard : 7|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Key_D : 4|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Key_Break : 46|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Check : 56|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Led_R : 51|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Led_L : 50|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Led_Beam_High : 53|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Led_Beam_Low : 52|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Led_Auto : 49|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_Beak : 16|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ Cockpit_Gear : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_EPS_Angle : 31|16@0- (1,0) [-600|600] "°" Vector__XXX
+ SG_ Cockpit_Led_Ready : 48|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cockpit_ACC : 8|8@1+ (1,0) [0|100] "%" Vector__XXX
+
+BO_ 226 Carla_EV_state: 8 CARLA
+ SG_ Carla_Ctr_Light_Start : 48|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Check : 56|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Ctr_Horn : 55|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Ctr_Light_Break : 54|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Ctr_Light_Beam_Low : 52|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Ctr_Light_Beam_High : 53|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Ctr_Light_Auto : 49|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Gear : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Ctr_Light_R : 51|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_Ctr_Light_L : 50|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Carla_EPS_Torque : 40|8@1- (0.1,0) [-12|12] "N.M" Vector__XXX
+ SG_ Carla_Steer_Angle : 31|16@0- (1,0) [-540|540] "°" Vector__XXX
+ SG_ Carla_EV_Speed : 15|16@0- (0.001,0) [0|100] "m/s" Vector__XXX
+
+
+
+CM_ BU_ CARLA "域控制器";
+CM_ BU_ VCU "底盘行驶控制器";
+CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
+CM_ SG_ 3221225472 Cockpit_Key_Stop "急停开关";
+CM_ BO_ 289 "座舱域控发后视电子屏的警告";
+CM_ SG_ 289 CDC_Fatigue_Icon "疲劳驾驶检测图标
+";
+CM_ SG_ 289 CDC_Blind_Icon "盲区警示图标
+";
+CM_ BO_ 274 "仿真动力系统状态";
+CM_ SG_ 274 Carla_Temp "温度 ";
+CM_ SG_ 274 Carla_LV "低压蓄电池电压";
+CM_ SG_ 274 Carla_HV_Remain "剩余里程";
+CM_ SG_ 274 Carla_HV_Current "动力电池电流";
+CM_ SG_ 274 Carla_HV "动力电池电压";
+CM_ BO_ 275 "Carla-仪表数据";
+CM_ SG_ 275 Carla_DM_Speed "电机转速";
+CM_ SG_ 275 Carla_Check "异或和";
+CM_ SG_ 275 Carla_AP_Sys_Icon "智驾系统-动态图标";
+CM_ SG_ 275 Carla_AP_Run_Icon "智驾运行-动态图标";
+CM_ SG_ 275 Carla_AP_Fault_Icon "智驾故障-动态图标";
+CM_ SG_ 275 Carla_Charge_Icon "充电动态图标";
+CM_ BO_ 276 "Carla-抬头显数据";
+CM_ SG_ 276 Carla_HUD_Icon "指示灯标志位";
+CM_ SG_ 276 Carla_EV_Speed_H "仪表车速";
+CM_ SG_ 276 Carla_EV_SOC "仪表电量";
+CM_ SG_ 276 Carla_Navigae_Speed_Limit_Icon "导航限速图标";
+CM_ SG_ 276 Carla_Navigate_Icon "导航动态图标";
+CM_ SG_ 276 Carla_Navigate_Distance "导航阶段距离";
+CM_ BO_ 277 "座舱实际状态";
+CM_ SG_ 277 Cockpit_Check "异或和";
+CM_ SG_ 277 Cockpit_Temp "座舱温度(固定值)";
+CM_ SG_ 277 Cockpit_State_Icon "整车动态图标";
+CM_ SG_ 277 Cockpit_State_Chassis_Icon "底盘状态图标";
+CM_ SG_ 277 Cockpit_LV "低压蓄电池电压";
+CM_ SG_ 277 Cockpit_Fault_Icon_2 "整车故障图标2";
+CM_ SG_ 277 Cockpit_Fault_Icon_1 "整车故障图标1";
+CM_ SG_ 277 Cockpit_Fault_Chassis_Icon "底盘故障图标";
+CM_ BO_ 278 "座舱操控";
+CM_ SG_ 278 Cockpit_Led_Horn "喇叭状态
+";
+CM_ SG_ 278 Cockpit_Led_Break "刹车灯状态";
+CM_ SG_ 278 Cockpit_SW_Light_R "转向灯开关信号-右";
+CM_ SG_ 278 Cockpit_SW_Light_L "转向灯开关信号-左
+";
+CM_ SG_ 278 Cockpit_SW_Start "启动信号
+";
+CM_ SG_ 278 Cockpit_SW_Beam_Low "近光灯开关信号 
+";
+CM_ SG_ 278 Cockpit_SW_Beam_High "远光灯开关信号 
+";
+CM_ SG_ 278 Cockpit_SW_Auto "智驾开关信号
+";
+CM_ SG_ 278 Cockpit_Key_R "挡位开关信号-R
+";
+CM_ SG_ 278 Cockpit_Key_Park "驻车开关信号 
+";
+CM_ SG_ 278 Cockpit_Key_Horn "喇叭开关信号 
+";
+CM_ SG_ 278 Cockpit_Key_Hazard "危险报警开关";
+CM_ SG_ 278 Cockpit_Key_D "挡位开关信号-D
+";
+CM_ SG_ 278 Cockpit_Key_Break "刹车开关信号 
+";
+CM_ SG_ 278 Cockpit_Check "异或和";
+CM_ SG_ 278 Cockpit_Led_R "转向灯状态-右";
+CM_ SG_ 278 Cockpit_Led_L "转向灯状态-左
+";
+CM_ SG_ 278 Cockpit_Led_Beam_High "远光灯状态
+";
+CM_ SG_ 278 Cockpit_Led_Beam_Low "近光灯开关信号 
+";
+CM_ SG_ 278 Cockpit_Led_Auto "智驾小蓝灯状态
+";
+CM_ SG_ 278 Cockpit_Beak "刹车踏板开度";
+CM_ SG_ 278 Cockpit_Gear "挡位";
+CM_ SG_ 278 Cockpit_EPS_Angle "方向盘角度";
+CM_ SG_ 278 Cockpit_Led_Ready "整车Ready灯";
+CM_ SG_ 278 Cockpit_ACC "油门踏板开度";
+CM_ BO_ 226 "仿真主车状态";
+CM_ SG_ 226 Carla_Ctr_Light_Start "启动指示灯";
+CM_ SG_ 226 Carla_Check "异或和";
+CM_ SG_ 226 Carla_Ctr_Horn "喇叭
+";
+CM_ SG_ 226 Carla_Ctr_Light_Break "刹车灯";
+CM_ SG_ 226 Carla_Ctr_Light_Beam_Low "近光灯开关信号 
+";
+CM_ SG_ 226 Carla_Ctr_Light_Beam_High "远光灯 
+";
+CM_ SG_ 226 Carla_Ctr_Light_Auto "智驾小蓝灯
+";
+CM_ SG_ 226 Carla_Gear "挡位";
+CM_ SG_ 226 Carla_Ctr_Light_R "转向灯-右";
+CM_ SG_ 226 Carla_Ctr_Light_L "转向灯-左
+";
+CM_ SG_ 226 Carla_EPS_Torque "路感扭矩命令";
+CM_ SG_ 226 Carla_Steer_Angle "方向盘转向角度请求";
+CM_ SG_ 226 Carla_EV_Speed "车辆车速";
+BA_DEF_ BO_  "TpJ1939VarDlc" ENUM  "No","Yes";
+BA_DEF_ SG_  "SigType" ENUM  "Default","Range","RangeSigned","ASCII","Discrete","Control","ReferencePGN","DTC","StringDelimiter","StringLength","StringLengthControl","MessageCounter","MessageChecksum";
+BA_DEF_ SG_  "GenSigEVName" STRING ;
+BA_DEF_ SG_  "GenSigILSupport" ENUM  "No","Yes";
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ BO_  "GenMsgFastOnStart" INT 0 100000;
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgCycleTimeFast" INT 0 3600000;
+BA_DEF_ BO_  "GenMsgNrOfRepetition" INT 0 1000000;
+BA_DEF_ SG_  "GenSigStartValue" INT 0 2147483647;
+BA_DEF_ BO_  "GenMsgDelayTime" INT 0 1000;
+BA_DEF_ BO_  "GenMsgILSupport" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgStartDelayTime" INT 0 100000;
+BA_DEF_ BU_  "NodeLayerModules" STRING ;
+BA_DEF_ BU_  "ECU" STRING ;
+BA_DEF_ BU_  "NmJ1939SystemInstance" INT 0 15;
+BA_DEF_ BU_  "NmJ1939System" INT 0 127;
+BA_DEF_ BU_  "NmJ1939ManufacturerCode" INT 0 2047;
+BA_DEF_ BU_  "NmJ1939IndustryGroup" INT 0 7;
+BA_DEF_ BU_  "NmJ1939IdentityNumber" INT 0 2097151;
+BA_DEF_ BU_  "NmJ1939FunctionInstance" INT 0 7;
+BA_DEF_ BU_  "NmJ1939Function" INT 0 255;
+BA_DEF_ BU_  "NmJ1939ECUInstance" INT 0 3;
+BA_DEF_ BU_  "NmJ1939AAC" INT 0 1;
+BA_DEF_ BU_  "NmStationAddress" INT 0 255;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "cyclic","NotUsed","IfActive","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed","noMsgSendType";
+BA_DEF_ BO_  "GenMsgRequestable" INT 0 1;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 3600000;
+BA_DEF_ SG_  "SPN" INT 0 524287;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_  "ProtocolType" STRING ;
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","J1939PG";
+BA_DEF_DEF_  "TpJ1939VarDlc" "No";
+BA_DEF_DEF_  "SigType" "Default";
+BA_DEF_DEF_  "GenSigEVName" "Env@Nodename_@Signame";
+BA_DEF_DEF_  "GenSigILSupport" "Yes";
+BA_DEF_DEF_  "GenSigSendType" "NoSigSendType";
+BA_DEF_DEF_  "GenMsgFastOnStart" 0;
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgCycleTimeFast" 0;
+BA_DEF_DEF_  "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "GenMsgDelayTime" 0;
+BA_DEF_DEF_  "GenMsgILSupport" "Yes";
+BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
+BA_DEF_DEF_  "NodeLayerModules" "";
+BA_DEF_DEF_  "ECU" "";
+BA_DEF_DEF_  "NmJ1939SystemInstance" 0;
+BA_DEF_DEF_  "NmJ1939System" 0;
+BA_DEF_DEF_  "NmJ1939ManufacturerCode" 0;
+BA_DEF_DEF_  "NmJ1939IndustryGroup" 0;
+BA_DEF_DEF_  "NmJ1939IdentityNumber" 0;
+BA_DEF_DEF_  "NmJ1939FunctionInstance" 0;
+BA_DEF_DEF_  "NmJ1939Function" 0;
+BA_DEF_DEF_  "NmJ1939ECUInstance" 0;
+BA_DEF_DEF_  "NmJ1939AAC" 0;
+BA_DEF_DEF_  "NmStationAddress" 254;
+BA_DEF_DEF_  "GenMsgSendType" "noMsgSendType";
+BA_DEF_DEF_  "GenMsgRequestable" 1;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "SPN" 0;
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "BusType" "CAN";
+BA_DEF_DEF_  "ProtocolType" "J1939";
+BA_DEF_DEF_  "VFrameFormat" "J1939PG";
+BA_ "DBName" "CarlaVCU";
+BA_ "NmStationAddress" BU_ CARLA 226;
+BA_ "NmStationAddress" BU_ VCU 193;
+BA_ "VFrameFormat" BO_ 289 0;
+BA_ "VFrameFormat" BO_ 274 0;
+BA_ "VFrameFormat" BO_ 275 0;
+BA_ "VFrameFormat" BO_ 276 0;
+BA_ "VFrameFormat" BO_ 277 0;
+BA_ "VFrameFormat" BO_ 278 0;
+BA_ "GenMsgCycleTime" BO_ 278 20;
+BA_ "GenMsgCycleTime" BO_ 226 20;
+BA_ "GenMsgSendType" BO_ 226 0;
+BA_ "VFrameFormat" BO_ 226 0;
+VAL_ 278 Cockpit_Gear 4 "R档" 3 "S档" 2 "D档" 1 "N档" 0 "P档" ;
+VAL_ 226 Carla_Gear 4 "R档" 3 "S档" 2 "D档" 1 "N档" 0 "P档" ;
+

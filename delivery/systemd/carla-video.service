@@ -1,0 +1,17 @@
+[Unit]
+Description=CARLA Rear Mirror RTSP Streams
+After=network-online.target carla-engine.service carla-backend.service
+Wants=network-online.target
+Requires=carla-engine.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Carla_Project
+ExecStart=/usr/bin/env bash %h/Carla_Project/delivery/start_mirror_stream.sh
+Restart=always
+RestartSec=10
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

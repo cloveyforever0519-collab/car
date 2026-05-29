@@ -1,0 +1,17 @@
+[Unit]
+Description=CARLA Center Screen Fullscreen View
+After=graphical-session.target network-online.target carla-video.service carla-backend.service
+Wants=network-online.target
+Requires=carla-video.service carla-backend.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Carla_Project
+ExecStart=/usr/bin/env bash %h/Carla_Project/delivery/start_center_display.sh
+Restart=always
+RestartSec=5
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+[Install]
+WantedBy=default.target

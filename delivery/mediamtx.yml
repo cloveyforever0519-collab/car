@@ -1,0 +1,10 @@
+logLevel: info
+rtspAddress: :8554
+protocols: [tcp]
+paths:
+  carla_rear_left:
+    source: publisher
+  carla_rear_right:
+    source: publisher
+  carla_birdview:
+    source: publisher

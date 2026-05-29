@@ -1,0 +1,8 @@
+[Unit]
+Description=CARLA Delivery Health Watchdog
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash %h/Carla_Project/delivery/watchdog.sh

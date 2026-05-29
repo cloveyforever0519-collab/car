@@ -1,0 +1,18 @@
+[Unit]
+Description=CARLA Engine for Official Demo
+After=graphical-session.target network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=%h/CARLA_0.9.15
+ExecStart=/usr/bin/env bash %h/Carla_Project/official_carla_demo/runtime/start_carla.sh
+Restart=on-failure
+RestartSec=15
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target
