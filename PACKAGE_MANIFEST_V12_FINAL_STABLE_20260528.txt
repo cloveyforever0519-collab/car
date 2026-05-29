@@ -1,0 +1,36 @@
+CARLA final full package V12 final stable
+Generated: 2026-05-28
+
+Base package:
+- CARLA_Project_FINAL_FULL_20260528_V12_ORIGINAL_RESTORE_CLEAN.tar.gz
+
+Included delivery-machine hotfix:
+- official_carla_demo/official_udp_vehicle_client.py
+  - Restore Tesla Cybertruck driver camera to the earlier stable cockpit position.
+  - Keep vehicle identification logic unchanged, so Tesla Model 3 and Tesla Cybertruck stay separated by exact blueprint id.
+  - Keep driver camera mounted with carla.AttachmentType.Rigid.
+- official_carla_demo/install_autostart.sh
+  - Preserve delivery-machine low-power engine profile: CARLA_QUALITY_LEVEL=Low with -windowed -vulkanpresentmode=2.
+
+Runtime policy:
+- Do not use V13/V13.1 packages for this delivery baseline.
+- Keep original V12 backend, command API, sensor, telemetry, route, RTSP, and systemd service behavior.
+- Preserve frontend 0/1 convention: 0 means load, 1 means do not load.
+
+Preserved features:
+- Official pygame backend and command API on 8765.
+- Vehicle model command key: vehiclemodel.
+- AI/AIGO/manual driving modes.
+- Rear-left RTSP, rear-right RTSP, and birdview RTSP on port 8554.
+- Sensor telemetry, vehicle telemetry, and route AB/BC/CA support.
+- Bundled bin/mediamtx.
+
+Added operator test script:
+- delivery/v12_aigo_town010204_random_test.sh
+  - Random AIGO validation over Town01, Town02, and Town04.
+  - Uses local RTSP probe URLs on 127.0.0.1 to avoid false negatives on the delivery host.
+
+Documents:
+- docs/*manual/product guide* 20260528, delivered as both .md and .docx.
+- docs/*personal work summary* 20260528, delivered as both .md and .docx.
+- The final enhanced document set is based on the 2026-05-27 enhanced documents, not a new short rewrite.

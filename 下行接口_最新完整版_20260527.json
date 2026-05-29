@@ -1,0 +1,422 @@
+{
+  "document": "CARLA 下行接口最新完整版",
+  "version": "2026-05-27",
+  "direction": "carla_backend_to_frontend_or_external_consumers",
+  "base_url": "http://127.0.0.1:8765",
+  "encoding": "UTF-8 JSON",
+  "summary": {
+    "http_polling_primary": "/health",
+    "http_auxiliary": [
+      "/telemetry",
+      "/sensors",
+      "/route"
+    ],
+    "udp_vehicle_telemetry_ports": [
+      5000,
+      5002,
+      5003
+    ],
+    "udp_sensor_summary_ports": [
+      5010
+    ],
+    "side_camera_streams": {
+      "protocol": "HTTP MJPEG or public RTSP alias from health.side_camera_streams",
+      "default_local_mjpeg_port": 8771
+    },
+    "notes": [
+      "主前端建议以 /health 为主轮询接口，1-2Hz 即可。",
+      "旧车辆遥测继续使用 telemetry/frontend_telemetry；新增传感器数据优先读 sensor_summary。",
+      "不要把完整 LiDAR 点云塞入旧车辆遥测 UI；当前交付输出的是摘要、统计值和少量样例。",
+      "地图导航状态读取 route 字段，controller=traffic_manager_path 表示当前使用 CARLA Traffic Manager fixed path。"
+    ]
+  },
+  "http_endpoints": {
+    "health": {
+      "method": "GET",
+      "path": "/health",
+      "purpose": "主状态接口，前端推荐持续轮询。",
+      "recommended_poll_hz": "1-2Hz",
+      "top_level_fields": {
+        "ok": "boolean，后端接口是否正常返回。",
+        "backend": "string，后端名称，通常为 official_demo_gateway。",
+        "running": "boolean，demo 客户端进程是否在运行。",
+        "pid": "number|null，当前 official_udp_vehicle_client.py 进程 PID。",
+        "mode": "string，当前模式：AI/AIGO/Manual/idle。",
+        "drive_mode": "string，中文模式说明。",
+        "last_command": "object，最近一次启动命令归一化结果。",
+        "last_result": "object，最近一次启动/停止结果。",
+        "log_path": "string|null，当前 demo 日志路径。",
+        "target_ip": "string，遥测目标 IP。",
+        "camera_view": "string，当前主画面视角。",
+        "camera_view_label": "string，当前视角中文标签。",
+        "camera_stream_url": "string，主画面流标识，官方 pygame 为 official-pygame://camera。",
+        "camera_streams": "object，不同视角的主画面流标识。",
+        "side_camera_streams": "object，左右后视镜流地址。",
+        "vehicle_alive": "boolean，ego 车辆是否已经生成并存活。",
+        "world": "string|null，当前 CARLA map。",
+        "paused": "boolean，是否暂停。",
+        "telemetry": "object，前端车辆动力学摘要字段。",
+        "sensor_data": "object，完整传感器状态快照或简化占位。",
+        "sensor_summary": "object，前端推荐使用的传感器摘要。",
+        "route": "object|null，地图导航状态；非导航模式通常为 null。",
+        "diagnostics": "object，诊断字段，如速度、端口、发送计数。",
+        "udp_client": "object，客户端内部状态快照。"
+      },
+      "frontend_minimum_fields": [
+        "running",
+        "vehicle_alive",
+        "mode",
+        "world",
+        "camera_view",
+        "telemetry",
+        "sensor_summary",
+        "route",
+        "diagnostics.speed_kmh",
+        "side_camera_streams"
+      ],
+      "example_response_skeleton": {
+        "ok": true,
+        "backend": "official_demo_gateway",
+        "running": true,
+        "pid": 123456,
+        "mode": "AI",
+        "drive_mode": "官方 pygame 画面 + CARLA Traffic Manager",
+        "camera_view": "driver",
+        "camera_view_label": "驾驶员第一视角",
+        "camera_stream_url": "official-pygame://camera",
+        "camera_streams": {
+          "active": "official-pygame://camera",
+          "follow": "official-pygame://camera",
+          "driver": "official-pygame://camera",
+          "rear": "official-pygame://camera"
+        },
+        "side_camera_streams": {
+          "rear_left": "rtsp://192.168.110.100:8554/carla_rear_left",
+          "rear_right": "rtsp://192.168.110.100:8554/carla_rear_right"
+        },
+        "vehicle_alive": true,
+        "world": "Town02",
+        "telemetry": {},
+        "sensor_summary": {},
+        "route": {},
+        "diagnostics": {
+          "speed_kmh": 32.5
+        }
+      }
+    },
+    "telemetry": {
+      "method": "GET",
+      "path": "/telemetry",
+      "purpose": "车辆遥测快照接口，适合车辆动力学参数页或调试页。",
+      "main_fields": {
+        "telemetry": "前端车辆动力学字段。",
+        "sensor_data": "传感器状态快照。",
+        "sensor_summary": "传感器前端摘要。",
+        "route": "导航状态。"
+      }
+    },
+    "sensors": {
+      "method": "GET",
+      "path": "/sensors",
+      "purpose": "传感器专用状态接口，适合传感器页面或验收调试。",
+      "main_fields": {
+        "sensor_data": "完整传感器状态。",
+        "sensor_summary": "前端摘要。",
+        "diagnostics.sensor_udp_ports": "传感器 UDP 输出端口。",
+        "diagnostics.sensor_tx_count": "传感器 UDP 发送计数。"
+      }
+    },
+    "route_info": {
+      "method": "GET",
+      "path": "/route",
+      "purpose": "查询 /route 使用说明、合法路线段和示例。",
+      "main_fields": {
+        "segments": [
+          "AB",
+          "BC",
+          "CA"
+        ],
+        "endpoint": "/route",
+        "example": {
+          "scene": "Town02",
+          "segment": "AB",
+          "camera_view": "driver",
+          "loadingsensor": "1"
+        }
+      }
+    }
+  },
+  "sensor_summary_schema": {
+    "enabled": {
+      "type": "boolean",
+      "description": "是否加载传感器。loadingsensor=0 时通常为 true；loadingsensor=1 时为 false。"
+    },
+    "lidar_points": {
+      "type": "number",
+      "description": "LiDAR 当前摘要点数或最近统计点数。"
+    },
+    "radar_targets": {
+      "type": "number",
+      "description": "Radar 当前检测目标数。"
+    },
+    "nearest_obstacle_m": {
+      "type": "number",
+      "description": "最近障碍距离，单位 m。无传感器或未检测时为 0.0。"
+    },
+    "imu_accel_norm_m_s2": {
+      "type": "number",
+      "description": "IMU 加速度模长，单位 m/s^2。"
+    },
+    "heading_deg": {
+      "type": "number",
+      "description": "航向角，单位 degree。"
+    },
+    "gnss": {
+      "type": "object",
+      "fields": {
+        "latitude": "number，纬度。",
+        "longitude": "number，经度。",
+        "altitude_m": "number，高度，单位 m。"
+      }
+    },
+    "updated_at": {
+      "type": "number|null",
+      "description": "最近更新时间戳。未加载或未更新时为 null。"
+    },
+    "frontend_display_recommendation": {
+      "when_enabled_false": "显示“传感器未加载”，数值保持 0，不要当成错误。",
+      "when_enabled_true": "显示 LiDAR 点数、Radar 目标数、最近障碍、IMU、GNSS、更新时间。"
+    }
+  },
+  "route_schema": {
+    "enabled": {
+      "type": "boolean",
+      "description": "是否启用地图导航。"
+    },
+    "mode": {
+      "type": "string",
+      "allowed": [
+        "AB",
+        "BC",
+        "CA"
+      ],
+      "description": "当前导航路线段。"
+    },
+    "loop": {
+      "type": "boolean",
+      "description": "是否循环路线。当前前端按钮 AB/BC/CA 通常为 false。"
+    },
+    "active_leg": {
+      "type": "string|null",
+      "description": "当前执行路线段，如 BC；到达后可能为 null。"
+    },
+    "target": {
+      "type": "string|null",
+      "description": "当前目标点 A/B/C。"
+    },
+    "arrived": {
+      "type": "boolean",
+      "description": "是否到达当前路线终点。"
+    },
+    "controller": {
+      "type": "string|null",
+      "expected": "traffic_manager_path",
+      "description": "导航控制器。traffic_manager_path 表示 CARLA Traffic Manager fixed path 生效。basic_agent_fallback 表示退回 BasicAgent。"
+    },
+    "traffic_manager_message": {
+      "type": "string|null",
+      "description": "Traffic Manager fixed path 启动状态说明。"
+    },
+    "target_speed_kmh": {
+      "type": "number",
+      "description": "路线目标速度配置或基础状态。"
+    },
+    "tm_seed": {
+      "type": "number",
+      "description": "Traffic Manager 随机种子，当前建议 42，用于复现性。"
+    },
+    "points": {
+      "type": "object",
+      "description": "A/B/C 三点坐标与 yaw，前端画图可用。",
+      "point_schema": {
+        "x": "number",
+        "y": "number",
+        "z": "number",
+        "yaw": "number"
+      }
+    },
+    "distances_m": {
+      "type": "object",
+      "description": "AB/BC/CA 三段端点直线距离，仅供参考。"
+    },
+    "route_lengths_m": {
+      "type": "object|null",
+      "description": "真实路网 path 长度。"
+    },
+    "shared_route_cells": {
+      "type": "object|null",
+      "description": "路线重叠网格统计，用于调试路线是否重复。"
+    },
+    "path_summary": {
+      "type": "object|null",
+      "description": "每段固定 path 的 hash 和 waypoint_count。前端/验收可用 hash 判断路线是否一致。",
+      "segment_schema": {
+        "hash": "string，固定路线 hash。",
+        "waypoint_count": "number，路径 waypoint 数。"
+      }
+    },
+    "error": {
+      "type": "string|null",
+      "description": "导航错误或 fallback 原因。"
+    },
+    "frontend_display_recommendation": {
+      "normal": "显示 mode、controller、active_leg、target、arrived、speed、hash。",
+      "controller_warning": "如果 controller 不是 traffic_manager_path，应提示“导航控制器降级”。",
+      "arrived_true": "显示路线完成，可允许用户选择下一段路线。"
+    }
+  },
+  "diagnostics_schema": {
+    "actor_id": "ego 车辆 actor id。",
+    "speed_kmh": "当前车速，km/h。",
+    "control": "当前控制状态；AI/TM 模式可能为 null。",
+    "telemetry_ports": "车辆 UDP 遥测端口列表。",
+    "sensor_udp_ports": "传感器 UDP 端口列表。",
+    "sensor_tx_count": "传感器 UDP 发送计数。",
+    "algo_telemetry_port": "AIGO 内部遥测端口。",
+    "manual_telemetry_port": "Manual 内部遥测端口。"
+  },
+  "udp_outputs": {
+    "vehicle_telemetry": {
+      "protocol": "UDP",
+      "ports": [
+        5000,
+        5002,
+        5003
+      ],
+      "direction": "backend_to_frontend_or_external_consumers",
+      "payload": "JSON bytes，车辆动力学/前端遥测摘要。",
+      "notes": [
+        "保持旧前端兼容。",
+        "不要用于控制。",
+        "不要把完整传感器点云塞入该通道。"
+      ]
+    },
+    "sensor_summary": {
+      "protocol": "UDP",
+      "ports": [
+        5010
+      ],
+      "direction": "backend_to_frontend_or_external_consumers",
+      "payload": "JSON bytes，传感器摘要。",
+      "notes": [
+        "新增传感器专用通道。",
+        "默认 5Hz 左右，可由 OFFICIAL_SENSOR_UDP_HZ 调整。",
+        "适合前端传感器卡片、算法辅助状态或验收监听。"
+      ]
+    },
+    "control_input_warning": {
+      "port": 5001,
+      "description": "5001 是 AIGO/Manual 控制入口，不是下行输出。前端和调试工具不要监听或占用 5001。"
+    }
+  },
+  "video_outputs": {
+    "main_pygame_camera": {
+      "camera_stream_url": "official-pygame://camera",
+      "description": "主画面直接由 pygame 窗口显示，不是 RTSP 主流。",
+      "views": [
+        "follow",
+        "driver"
+      ]
+    },
+    "side_mirrors": {
+      "health_field": "side_camera_streams",
+      "default_public_examples": {
+        "rear_left": "rtsp://192.168.110.100:8554/carla_rear_left",
+        "rear_right": "rtsp://192.168.110.100:8554/carla_rear_right",
+        "birdview": "rtsp://192.168.110.100:8554/carla_birdview"
+      },
+      "default_local_mjpeg_examples": {
+        "rear_left": "http://127.0.0.1:8771/rear_left.mjpg",
+        "rear_right": "http://127.0.0.1:8771/rear_right.mjpg"
+      },
+      "description": "左右后视镜与车顶 birdview 全景摄像头 RTSP 输出，前端按 /health.side_camera_streams 绑定，可三路同时拉取。",
+      "default_resolution": "1280x720",
+      "default_fps": 20,
+      "latency_policy": "RTSP publisher keeps only the latest frame, drops stale frames, and uses low-latency H264 settings.",
+      "recommended_frontend_keys": [
+        "rear_left",
+        "rear_right",
+        "birdview"
+      ],
+      "birdview_notes": "birdview 为车辆中心正上方摄像头，随车型 bounding box 自适应高度和 FOV，用于中控大屏全景/上帝视角显示。"
+    },
+    "birdview_camera": {
+      "health_field": "side_camera_streams.birdview",
+      "default_public_url": "rtsp://192.168.110.100:8554/carla_birdview",
+      "default_resolution": "1280x720",
+      "default_fps": 20,
+      "description": "车辆中心点正上方俯视全景摄像头，画面正对车辆，支持与左右后视镜同时拉流。"
+    }
+  },
+  "frontend_state_mapping": {
+    "dashboard_running_light": "health.running",
+    "vehicle_ready_light": "health.vehicle_alive",
+    "current_mode": "health.mode",
+    "current_scene": "health.last_command.scene 或 health.world",
+    "current_camera_view": "health.camera_view",
+    "speed_display": "health.diagnostics.speed_kmh 或 health.udp_client.speed_kmh",
+    "vehicle_parameter_table": "health.telemetry",
+    "sensor_panel": "health.sensor_summary",
+    "route_panel": "health.route",
+    "error_banner": "health.route.error 或 health.last_result.msg"
+  },
+  "example_frontend_poll_result": {
+    "running": true,
+    "vehicle_alive": true,
+    "mode": "AI",
+    "camera_view": "driver",
+    "diagnostics": {
+      "speed_kmh": 35.2,
+      "telemetry_ports": [
+        5000,
+        5002,
+        5003
+      ],
+      "sensor_udp_ports": [
+        5010
+      ],
+      "sensor_tx_count": 128
+    },
+    "sensor_summary": {
+      "enabled": true,
+      "lidar_points": 2048,
+      "radar_targets": 6,
+      "nearest_obstacle_m": 18.4,
+      "imu_accel_norm_m_s2": 9.82,
+      "heading_deg": 86.3,
+      "gnss": {
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "altitude_m": 0.0
+      },
+      "updated_at": 1779850000.0
+    },
+    "route": {
+      "enabled": true,
+      "mode": "BC",
+      "controller": "traffic_manager_path",
+      "active_leg": "BC",
+      "target": "C",
+      "arrived": false,
+      "traffic_manager_message": "Traffic Manager set_path active for BC",
+      "tm_seed": 42,
+      "path_summary": {
+        "BC": {
+          "hash": "examplehash0000",
+          "waypoint_count": 120
+        }
+      },
+      "error": null
+    }
+  }
+}

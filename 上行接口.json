@@ -1,0 +1,10 @@
+{
+  "sendstate": "START",
+  "scene": "Town01",
+  "sky": "Light Rain",
+  "sunshinetime": "Sunset",
+  "drive_mode": "Manual",
+  "loadingtransportation": "1",
+  "vehiclemodel": "Lincoln MKZ",
+  "camera_view": "follow"
+}

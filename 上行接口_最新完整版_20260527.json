@@ -1,0 +1,309 @@
+{
+  "document": "CARLA 上行接口最新完整版",
+  "version": "2026-05-27",
+  "direction": "frontend_or_controller_to_carla_backend",
+  "base_url": "http://127.0.0.1:8765",
+  "encoding": "UTF-8 JSON",
+  "important_conventions": {
+    "loadingtransportation": {
+      "0": "加载交通参与者",
+      "1": "不加载交通参与者"
+    },
+    "loadingsensor": {
+      "0": "加载传感器",
+      "1": "不加载传感器"
+    },
+    "camera_view": {
+      "follow": "第三人称跟车视角",
+      "driver": "驾驶员第一视角",
+      "rear": "兼容别名；主画面通常归一到 follow，左右后视镜使用 side_camera_streams"
+    },
+    "route_mode": {
+      "endpoint": "/route",
+      "valid_scene": "Town02",
+      "valid_segments": [
+        "AB",
+        "BC",
+        "CA"
+      ],
+      "controller": "Traffic Manager fixed path",
+      "notes": "地图导航与普通 /command 启动隔离，不影响 AI/AIGO/Manual 普通模式。"
+    }
+  },
+  "endpoints": {
+    "command_start": {
+      "method": "POST",
+      "path": "/command",
+      "purpose": "启动普通驾驶仿真，支持 AI、AIGO、Manual 三类模式。",
+      "content_type": "application/json",
+      "request_schema": {
+        "sendstate": {
+          "type": "string",
+          "required": true,
+          "allowed": [
+            "START"
+          ],
+          "description": "启动仿真。"
+        },
+        "scene": {
+          "type": "string",
+          "required": true,
+          "allowed": [
+            "Town01",
+            "Town02",
+            "Town03",
+            "Town04",
+            "Town05",
+            "TrainingGround"
+          ],
+          "description": "CARLA 场景。"
+        },
+        "sky": {
+          "type": "string",
+          "required": false,
+          "default": "Sunny",
+          "allowed": [
+            "Sunny",
+            "Cloudy",
+            "Light Rain",
+            "Heavy Rainstorm",
+            "Fog/Dense Fog",
+            "Clear"
+          ],
+          "description": "天气。"
+        },
+        "sunshinetime": {
+          "type": "string",
+          "required": false,
+          "default": "Noon",
+          "allowed": [
+            "Noon",
+            "Sunset",
+            "Late Night"
+          ],
+          "description": "光照时间。"
+        },
+        "drive_mode": {
+          "type": "string",
+          "required": true,
+          "allowed": [
+            "AI",
+            "AIGO",
+            "Manual"
+          ],
+          "description": "驾驶模式。AI 为 CARLA Traffic Manager，AIGO 为算法 UDP 控制，Manual 为硬件/人工 UDP 控制。"
+        },
+        "vehiclemodel": {
+          "type": "string",
+          "required": false,
+          "default": "Lincoln MKZ",
+          "allowed": [
+            "Dodge Charger",
+            "Lincoln MKZ",
+            "Tesla Model 3",
+            "Audi e-tron",
+            "Jeep Wrangler",
+            "Tesla Cybertruck",
+            "Fuso Rosa",
+            "Mercedes Sprinter",
+            "Volkswagen T2",
+            "Carlacola Truck",
+            "European HGV",
+            "Firetruck"
+          ],
+          "description": "车辆模型。"
+        },
+        "camera_view": {
+          "type": "string",
+          "required": false,
+          "default": "follow",
+          "allowed": [
+            "follow",
+            "driver",
+            "rear",
+            "third",
+            "first",
+            "cockpit"
+          ],
+          "description": "主 pygame 画面视角。建议前端只暴露 follow 和 driver。"
+        },
+        "loadingtransportation": {
+          "type": "string",
+          "required": false,
+          "default": "1",
+          "allowed": [
+            "0",
+            "1"
+          ],
+          "description": "交通参与者加载开关：0=加载，1=不加载。"
+        },
+        "loadingsensor": {
+          "type": "string",
+          "required": false,
+          "default": "1",
+          "allowed": [
+            "0",
+            "1"
+          ],
+          "description": "传感器加载开关：0=加载，1=不加载。"
+        }
+      },
+      "example_request": {
+        "sendstate": "START",
+        "scene": "Town04",
+        "sky": "Cloudy",
+        "sunshinetime": "Noon",
+        "drive_mode": "AIGO",
+        "vehiclemodel": "Tesla Model 3",
+        "camera_view": "driver",
+        "loadingtransportation": "1",
+        "loadingsensor": "1"
+      },
+      "curl_example": "curl -sS -X POST http://127.0.0.1:8765/command -H \"Content-Type: application/json\" -d '{\"sendstate\":\"START\",\"scene\":\"Town04\",\"sky\":\"Cloudy\",\"sunshinetime\":\"Noon\",\"drive_mode\":\"AIGO\",\"vehiclemodel\":\"Tesla Model 3\",\"camera_view\":\"driver\",\"loadingtransportation\":\"1\",\"loadingsensor\":\"1\"}' | python3 -m json.tool"
+    },
+    "command_stop": {
+      "method": "POST",
+      "path": "/command",
+      "purpose": "停止当前 demo 进程。",
+      "content_type": "application/json",
+      "request_schema": {
+        "sendstate": {
+          "type": "string",
+          "required": true,
+          "allowed": [
+            "STOP"
+          ],
+          "description": "停止当前仿真。"
+        }
+      },
+      "example_request": {
+        "sendstate": "STOP"
+      },
+      "curl_example": "curl -sS -X POST http://127.0.0.1:8765/command -H \"Content-Type: application/json\" -d '{\"sendstate\":\"STOP\"}' | python3 -m json.tool"
+    },
+    "view_switch": {
+      "method": "POST",
+      "path": "/view",
+      "purpose": "运行中热切换主 pygame 画面视角，不重启 CARLA demo。",
+      "content_type": "application/json",
+      "request_schema": {
+        "camera_view": {
+          "type": "string",
+          "required": true,
+          "allowed": [
+            "follow",
+            "driver",
+            "rear",
+            "third",
+            "first",
+            "cockpit"
+          ],
+          "description": "目标视角。建议前端只暴露 follow 和 driver。"
+        }
+      },
+      "example_request": {
+        "camera_view": "driver"
+      },
+      "curl_example": "curl -sS -X POST http://127.0.0.1:8765/view -H \"Content-Type: application/json\" -d '{\"camera_view\":\"driver\"}' | python3 -m json.tool"
+    },
+    "route_start": {
+      "method": "POST",
+      "path": "/route",
+      "purpose": "启动地图导航模式。当前用于 Town02 的 AB、BC、CA 固定路线导航。",
+      "content_type": "application/json",
+      "request_schema": {
+        "scene": {
+          "type": "string",
+          "required": false,
+          "default": "Town02",
+          "allowed": [
+            "Town02"
+          ],
+          "description": "当前导航模式建议固定 Town02。"
+        },
+        "segment": {
+          "type": "string",
+          "required": true,
+          "allowed": [
+            "AB",
+            "BC",
+            "CA"
+          ],
+          "aliases": [
+            "route_segment",
+            "routeSegment",
+            "route",
+            "Route",
+            "A2B",
+            "B2C",
+            "C2A"
+          ],
+          "description": "路线段。"
+        },
+        "camera_view": {
+          "type": "string",
+          "required": false,
+          "default": "follow",
+          "allowed": [
+            "follow",
+            "driver"
+          ],
+          "description": "导航启动时直接指定主画面视角。最新后端已支持，不必再额外调用 /view。"
+        },
+        "loadingsensor": {
+          "type": "string",
+          "required": false,
+          "default": "1",
+          "allowed": [
+            "0",
+            "1"
+          ],
+          "description": "传感器加载开关：0=加载，1=不加载。"
+        }
+      },
+      "fixed_defaults_in_backend": {
+        "mode": "AI",
+        "vehicle": "Tesla Model 3",
+        "weather": "Sunny",
+        "time_of_day": "Noon",
+        "load_traffic": false,
+        "traffic_forced_off": false,
+        "route_shortcut": true
+      },
+      "example_request": {
+        "scene": "Town02",
+        "segment": "BC",
+        "camera_view": "driver",
+        "loadingsensor": "1"
+      },
+      "curl_example": "curl -sS -X POST http://127.0.0.1:8765/route -H \"Content-Type: application/json\" -d '{\"scene\":\"Town02\",\"segment\":\"BC\",\"camera_view\":\"driver\",\"loadingsensor\":\"1\"}' | python3 -m json.tool"
+    }
+  },
+  "frontend_recommended_controls": {
+    "normal_mode_controls": [
+      "scene",
+      "sky",
+      "sunshinetime",
+      "drive_mode",
+      "vehiclemodel",
+      "camera_view",
+      "loadingtransportation",
+      "loadingsensor"
+    ],
+    "route_mode_controls": [
+      "scene=Town02",
+      "segment=AB/BC/CA",
+      "camera_view=follow/driver",
+      "loadingsensor=0/1"
+    ],
+    "runtime_controls": [
+      "/view camera_view",
+      "/command STOP"
+    ],
+    "ui_text_recommendation": {
+      "sensor_switch": "显示为“加载传感器 / 不加载传感器”，不要只显示“是 / 否”，避免与 0/1 约定混淆。",
+      "traffic_switch": "显示为“加载交通 / 不加载交通”。",
+      "route_mode": "建议单独做“地图导航模式”，不要和普通 AI/AIGO/Manual 启动混在同一个按钮里。"
+    }
+  }
+}

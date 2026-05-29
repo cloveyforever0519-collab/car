@@ -1,0 +1,21 @@
+CARLA final full package V12 final stable
+Generated: 2026-05-28
+
+This compatibility manifest points to the authoritative final manifest:
+
+  PACKAGE_MANIFEST_V12_FINAL_STABLE_20260528.txt
+
+Final package:
+
+  CARLA_Project_FINAL_FULL_20260528_V12_FINAL_STABLE.tar.gz
+
+Contents:
+- Official pygame backend with sensor output, route /route AB/BC/CA, TM fixed path routing.
+- V12 original restore clean runtime baseline.
+- Delivery-machine Cybertruck driver-camera hotfix merged.
+- Delivery-machine low-power engine profile merged: CARLA_QUALITY_LEVEL=Low.
+- Rear-left, rear-right, and birdview RTSP streams; mediamtx bundled under bin/mediamtx.
+- AIGO Town01/Town02/Town04 random test script under delivery/.
+- Final product manual and personal work summary under docs/.
+
+Do not use older V10/V11 packages or the V13/V13.1 experimental packages for final delivery.

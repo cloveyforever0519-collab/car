@@ -1,0 +1,21 @@
+CARLA final full package V12 original restore clean
+Generated: 2026-05-28
+
+This file is retained for traceability. The final delivery package has one
+additional scoped runtime changes on top of this restored baseline:
+
+- Tesla Cybertruck driver camera restored to the earlier stable cockpit view.
+- CARLA engine quality kept at Low to match the delivery-machine stable profile.
+
+Use this authoritative final manifest for delivery:
+
+  PACKAGE_MANIFEST_V12_FINAL_STABLE_20260528.txt
+
+Preserved features:
+- Official pygame backend and command API on 8765.
+- Frontend 0/1 convention: 0 means load, 1 means do not load.
+- Vehicle model command key: vehiclemodel.
+- AI/AIGO/Manual modes.
+- Rear-left RTSP, rear-right RTSP, and birdview RTSP on port 8554.
+- Sensor telemetry, vehicle telemetry, and route AB/BC/CA support.
+- Bundled bin/mediamtx.
